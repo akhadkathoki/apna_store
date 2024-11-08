@@ -142,42 +142,49 @@ class _MainHomeState extends State<MainHome>
         ),
         body: ListView.builder(
           scrollDirection: Axis.vertical,
-          itemCount: CategoryModel
+          itemCount: Categorys
               .productItrem.length, // Ensure the correct length is passed here
           itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ProductDetails()),
-                );
-              },
-              child: Card(
-                elevation: 5,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("data"),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {});
-                          },
-                          icon: Row(
-                            children: [
-                              Text("View More"),
-                              Icon(Icons.arrow_forward_ios_rounded),
-                            ],
-                          ),
+            return AnimatedContainer(
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+              duration: Duration(milliseconds: 500),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(23, 255, 111, 0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("data"),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {});
+                        },
+                        icon: Row(
+                          children: [
+                            Text("View More"),
+                            Icon(Icons.arrow_forward_ios_rounded),
+                          ],
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => ProductDetails()),
+                      );
+                    },
+                    child: ItemWidget(
+                      item:
+                          Categorys.productItrem[index], // Fixed the typo here
                     ),
-                    ItemWidget(
-                      item: CategoryModel
-                          .productItrem[index], // Fixed the typo here
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           },

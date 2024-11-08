@@ -16,14 +16,19 @@ class ItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 250,
-      width: 250,
+      width: 210,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
       child: Stack(
         children: [
-          Image.network(
-            productImg,
-            height: 300, // Customize image height
-            width: double.infinity,
-            fit: BoxFit.cover,
+          ClipRRect(
+            borderRadius:
+                BorderRadius.circular(10), // Set your desired radius here
+            child: Image.network(
+              productImg,
+              fit: BoxFit.cover,
+            ),
           ),
           Positioned(
             bottom: 0,
