@@ -1,4 +1,3 @@
-
 import 'package:apna_store/Screens/item_widget.dart';
 import 'package:apna_store/Screens/product_details_page.dart';
 import 'package:apna_store/models/categories.dart';
@@ -54,6 +53,7 @@ class _MainHomeState extends State<MainHome>
     return Scaffold(
         backgroundColor: const Color(0xFFFAE3C6),
         appBar: AppBar(
+          automaticallyImplyLeading: false, // Disables the back button
           backgroundColor: const Color.fromARGB(255, 255, 214, 165),
           foregroundColor: theme.appBarTheme.backgroundColor,
           toolbarHeight: screenHeight * 0.1, // Dynamic height based on screen
@@ -129,7 +129,8 @@ class _MainHomeState extends State<MainHome>
             IconButton(
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const ProductDetails()),
+                  MaterialPageRoute(
+                      builder: (context) => const ProductDetails()),
                 );
               },
               icon: Icon(
@@ -139,6 +140,7 @@ class _MainHomeState extends State<MainHome>
             ),
           ],
         ),
+    
         body: ListView.builder(
           scrollDirection: Axis.vertical,
           itemCount: Categorys

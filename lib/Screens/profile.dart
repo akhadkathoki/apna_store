@@ -1,5 +1,9 @@
+import 'package:apna_store/Screens/authentication/login_page.dart';
+import 'package:apna_store/Utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:apna_store/img_file.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -26,6 +30,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isEditingLocation = false;
   bool isEditingOtherDetails = false;
 
+  final auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -50,29 +56,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
           IconButton(
             onPressed: () {
               // Add logout functionality here
+              auth.signOut().then((value) {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                Utils().toasMessage("Logged Out Successfully");
+              }).onError((error, StackTrace) {
+                Utils().toasMessage(error.toString());
+              });
             },
-            icon: const Row(
-              children: [
-                Icon(
-                  Icons.logout,
-                  color: Color.fromARGB(255, 253, 234, 211),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  'Log Out',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 253, 234, 211),
-                    fontSize: 15,
-                  ),
-                ),
-              ],
+            icon: const Icon(
+              Icons.logout,
+              color: Color.fromARGB(255, 253, 234, 211),
             ),
           ),
         ],
         elevation: 10,
       ),
+    
       backgroundColor: const Color(0xFFFAE3C6),
       body: SingleChildScrollView(
         child: Padding(
@@ -80,7 +80,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             children: [
               // Profile Picture Section
-              _buildProfilePicture(theme),
+              Center(
+                child: Stack(
+                  children: [
+                    const CircleAvatar(
+                      radius: 60,
+                      backgroundColor: Color.fromARGB(255, 155, 117, 70),
+                      child: CircleAvatar(
+                        radius: 55,
+                        backgroundImage: AssetImage(profile),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      right: 5,
+                      child: GestureDetector(
+                        onTap: () {
+                          // Add profile picture update functionality here
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: theme.primaryColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.camera_alt,
+                            color: Color.fromARGB(255, 253, 234, 211),
+                            size: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
               const SizedBox(height: 20),
               // User Details Section
@@ -103,78 +137,402 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(height: 50),
 
               // Personal Information Section
-              _buildSectionHeader(
-                  title: 'Personal Information',
-                  isEditing: isEditingPersonalInfo,
-                  onEditTap: () {
-                    setState(() {
-                      isEditingPersonalInfo = !isEditingPersonalInfo;
-                    });
-                  }),
-              _buildLabeledTextField(
-                  label: 'Full Name',
-                  controller: nameController,
-                  enabled: isEditingPersonalInfo),
-              _buildLabeledTextField(
-                  label: 'Email',
-                  controller: emailController,
-                  enabled: isEditingPersonalInfo),
-              _buildLabeledTextField(
-                  label: 'Age',
-                  controller: ageController,
-                  enabled: isEditingPersonalInfo),
-              _buildLabeledTextField(
-                  label: 'Gender',
-                  controller: genderController,
-                  enabled: isEditingPersonalInfo),
-              _buildLabeledTextField(
-                  label: 'Phone Number',
-                  controller: phoneNumberController,
-                  enabled: isEditingPersonalInfo),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Personal Information',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF4F2D19),
+                    ),
+                  ),
+                  IconButton(
+                    icon:
+                        Icon(isEditingPersonalInfo ? Icons.check : Icons.edit),
+                    color: const Color(0xFF4F2D19),
+                    onPressed: () {
+                      setState(() {
+                        isEditingPersonalInfo = !isEditingPersonalInfo;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Full Name',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF4F2D19),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(40))),
+                      child: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(40)),
+                        elevation: 9,
+                        shadowColor: const Color.fromARGB(255, 180, 105, 62)
+                            .withOpacity(0.15),
+                        child: TextFormField(
+                          controller: nameController,
+                          enabled: isEditingPersonalInfo,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Email',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF4F2D19),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(40))),
+                      child: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(40)),
+                        elevation: 9,
+                        shadowColor: const Color.fromARGB(255, 180, 105, 62)
+                            .withOpacity(0.15),
+                        child: TextFormField(
+                          controller: emailController,
+                          enabled: isEditingPersonalInfo,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Age',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF4F2D19),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(40))),
+                      child: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(40)),
+                        elevation: 9,
+                        shadowColor: const Color.fromARGB(255, 180, 105, 62)
+                            .withOpacity(0.15),
+                        child: TextFormField(
+                          controller: ageController,
+                          enabled: isEditingPersonalInfo,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Gender',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF4F2D19),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(40))),
+                      child: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(40)),
+                        elevation: 9,
+                        shadowColor: const Color.fromARGB(255, 180, 105, 62)
+                            .withOpacity(0.15),
+                        child: TextFormField(
+                          controller: genderController,
+                          enabled: isEditingPersonalInfo,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Phone Number',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF4F2D19),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(40))),
+                      child: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(40)),
+                        elevation: 9,
+                        shadowColor: const Color.fromARGB(255, 180, 105, 62)
+                            .withOpacity(0.15),
+                        child: TextFormField(
+                          controller: phoneNumberController,
+                          enabled: isEditingPersonalInfo,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
               const SizedBox(height: 20),
 
               // Location Section
-              _buildSectionHeader(
-                  title: 'Location',
-                  isEditing: isEditingLocation,
-                  onEditTap: () {
-                    setState(() {
-                      isEditingLocation = !isEditingLocation;
-                    });
-                  }),
-              _buildLabeledTextField(
-                  label: 'Country',
-                  controller: countryController,
-                  enabled: isEditingLocation),
-              _buildLabeledTextField(
-                  label: 'State',
-                  controller: stateController,
-                  enabled: isEditingLocation),
-              _buildLabeledTextField(
-                  label: 'District',
-                  controller: districtController,
-                  enabled: isEditingLocation),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Location',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF4F2D19),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(isEditingLocation ? Icons.check : Icons.edit),
+                    color: const Color(0xFF4F2D19),
+                    onPressed: () {
+                      setState(() {
+                        isEditingLocation = !isEditingLocation;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Country',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF4F2D19),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(40))),
+                      child: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(40)),
+                        elevation: 9,
+                        shadowColor: const Color.fromARGB(255, 180, 105, 62)
+                            .withOpacity(0.15),
+                        child: TextFormField(
+                          controller: countryController,
+                          enabled: isEditingLocation,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'State',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF4F2D19),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(40))),
+                      child: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(40)),
+                        elevation: 9,
+                        shadowColor: const Color.fromARGB(255, 180, 105, 62)
+                            .withOpacity(0.15),
+                        child: TextFormField(
+                          controller: stateController,
+                          enabled: isEditingLocation,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'District',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF4F2D19),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(40))),
+                      child: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(40)),
+                        elevation: 9,
+                        shadowColor: const Color.fromARGB(255, 180, 105, 62)
+                            .withOpacity(0.15),
+                        child: TextFormField(
+                          controller: districtController,
+                          enabled: isEditingLocation,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
               const SizedBox(height: 20),
 
               // Other Details Section
-              _buildSectionHeader(
-                  title: 'Other Details',
-                  isEditing: isEditingOtherDetails,
-                  onEditTap: () {
-                    setState(() {
-                      isEditingOtherDetails = !isEditingOtherDetails;
-                    });
-                  }),
-              _buildLabeledTextField(
-                  label: 'Other Detail 1',
-                  controller: TextEditingController(),
-                  enabled: isEditingOtherDetails),
-              _buildLabeledTextField(
-                  label: 'Other Detail 2',
-                  controller: TextEditingController(),
-                  enabled: isEditingOtherDetails),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Other Details',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF4F2D19),
+                    ),
+                  ),
+                  IconButton(
+                    icon:
+                        Icon(isEditingOtherDetails ? Icons.check : Icons.edit),
+                    color: const Color(0xFF4F2D19),
+                    onPressed: () {
+                      setState(() {
+                        isEditingOtherDetails = !isEditingOtherDetails;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Other Detail 1',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF4F2D19),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(40))),
+                      child: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(40)),
+                        elevation: 9,
+                        shadowColor: const Color.fromARGB(255, 180, 105, 62)
+                            .withOpacity(0.15),
+                        child: TextFormField(
+                          controller: TextEditingController(),
+                          enabled: isEditingOtherDetails,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Other Detail 2',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF4F2D19),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(40))),
+                      child: Material(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(40)),
+                        elevation: 9,
+                        shadowColor: const Color.fromARGB(255, 180, 105, 62)
+                            .withOpacity(0.15),
+                        child: TextFormField(
+                          controller: TextEditingController(),
+                          enabled: isEditingOtherDetails,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
               const SizedBox(height: 30),
 
@@ -188,10 +546,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     isEditingOtherDetails = false;
                   });
                 },
-                child: const Text(
-                  'Save',
-                  style: TextStyle(
-                    fontSize: 18,
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50),
+                  child: Text(
+                    'Save',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),
@@ -200,106 +561,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildProfilePicture(ThemeData theme) {
-    return Center(
-      child: Stack(
-        children: [
-          const CircleAvatar(
-            radius: 60,
-            backgroundColor: Color.fromARGB(255, 155, 117, 70),
-            child: CircleAvatar(
-              radius: 55,
-              backgroundImage: AssetImage(profile),
-            ),
-          ),
-          Positioned(
-            bottom: 5,
-            right: 5,
-            child: GestureDetector(
-              onTap: () {
-                // Add profile picture update functionality here
-              },
-              child: Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: theme.primaryColor,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.camera_alt,
-                  color: Color.fromARGB(255, 253, 234, 211),
-                  size: 18,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSectionHeader(
-      {required String title,
-      required bool isEditing,
-      required Function() onEditTap}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF4F2D19),
-          ),
-        ),
-        IconButton(
-          icon: Icon(isEditing ? Icons.check : Icons.edit),
-          color: const Color(0xFF4F2D19),
-          onPressed: onEditTap,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLabeledTextField({
-    required String label,
-    required TextEditingController controller,
-    required bool enabled,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF4F2D19),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Container(
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(40))),
-            child: Material(
-              borderRadius: const BorderRadius.all(Radius.circular(40)),
-              elevation: 9,
-              shadowColor:
-                  const Color.fromARGB(255, 180, 105, 62).withOpacity(0.15),
-              child: TextFormField(
-                controller: controller,
-                enabled: enabled,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
