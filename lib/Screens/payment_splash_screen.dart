@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:apna_store/Screens/home_screen.dart';
 import 'package:apna_store/img_file.dart';
 import 'package:apna_store/Screens/order_page.dart';
 import 'package:flutter/material.dart';
@@ -35,9 +34,9 @@ class _PaymentSuccessSplashScreenState extends State<PaymentSuccessSplashScreen>
     _controller.forward();
 
     // Timer for redirecting after 4 seconds
-    Timer(Duration(seconds: 4), () {
+    Timer(const Duration(seconds: 4), () {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => OrderPage()));
+          MaterialPageRoute(builder: (context) => const OrderPage()));
     });
   }
 
@@ -72,7 +71,7 @@ class _PaymentSuccessSplashScreenState extends State<PaymentSuccessSplashScreen>
               children: [
                 Image.asset(successTick), // Green tick image
                 const SizedBox(height: 20),
-                Text(
+                const Text(
                   'Order Conformed!',
                   style: TextStyle(
                     fontSize: 28,
@@ -81,7 +80,7 @@ class _PaymentSuccessSplashScreenState extends State<PaymentSuccessSplashScreen>
                   ),
                 ),
                 const SizedBox(height: 10),
-                Text(
+                const Text(
                   'Thank you for your purchase.',
                   style: TextStyle(
                     fontSize: 18,
@@ -90,7 +89,7 @@ class _PaymentSuccessSplashScreenState extends State<PaymentSuccessSplashScreen>
                   ),
                 ),
                 const SizedBox(height: 40),
-                CircularProgressIndicator(
+                const CircularProgressIndicator(
                   color: Color.fromARGB(
                       255, 57, 65, 57), // Green progress indicator
                 ),

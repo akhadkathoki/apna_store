@@ -1,4 +1,4 @@
-import 'package:apna_store/Screens/add_to_cartPage.dart';
+import 'package:apna_store/Screens/add_to_cart_page.dart';
 import 'package:apna_store/img_file.dart'; // Assuming you have this for your image file
 import 'package:flutter/material.dart';
 
@@ -54,7 +54,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           Container(
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 255, 221, 181),
+              color: const Color.fromARGB(255, 255, 221, 181),
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Column(
@@ -69,7 +69,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         children: [
                           Text(
                             product['name'],
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF4F2D19), // Custom theme color
@@ -84,13 +84,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ],
                       ),
-                      Spacer(),
-                      Spacer(),
-                      Spacer(),
+                      const Spacer(),
+                      const Spacer(),
+                      const Spacer(),
                       Expanded(
                         child: IconButton(
                           onPressed: () {},
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.favorite_outline,
                             size: 30,
                             color: Color(0xFF4F2D19),
@@ -120,7 +120,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           color: Colors.green,
                           fontWeight: FontWeight.bold),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       '\$${product['discountPrice']}',
                       style: const TextStyle(
@@ -134,14 +134,14 @@ class _ProductDetailsState extends State<ProductDetails> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 14,
           ),
           // Rating and Shop info
           Container(
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 255, 221, 181),
+              color: const Color.fromARGB(255, 255, 221, 181),
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Column(
@@ -224,7 +224,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           Container(
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 255, 221, 181),
+              color: const Color.fromARGB(255, 255, 221, 181),
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Column(
@@ -234,7 +234,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   'Highlights',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 3,
                 ),
                 Column(
@@ -266,7 +266,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           Container(
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 255, 221, 181),
+              color: const Color.fromARGB(255, 255, 221, 181),
               borderRadius: BorderRadius.circular(20.0),
             ),
             child: Row(
@@ -297,7 +297,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         // Action for Buy Now
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF4F2D19),
+                        backgroundColor: const Color(0xFF4F2D19),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                       child: const Text(

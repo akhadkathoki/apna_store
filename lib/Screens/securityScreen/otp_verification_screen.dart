@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:apna_store/Screens/login_page.dart';
+import 'package:apna_store/Screens/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 
 class OTPVerificationScreen extends StatefulWidget {
@@ -74,7 +74,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // OTP title with bold style and large font
-                  Text(
+                  const Text(
                     "Enter OTP",
                     textAlign: TextAlign.left,
                     style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
@@ -97,7 +97,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                         (index) {
                           return Expanded(
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                               ),
@@ -111,7 +111,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                                   contentPadding:
                                       EdgeInsets.symmetric(vertical: 1),
                                 ),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 20,
                                 ),
                                 keyboardType: TextInputType.number,

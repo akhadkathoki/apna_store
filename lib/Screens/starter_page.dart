@@ -1,5 +1,5 @@
-import 'package:apna_store/Screens/login_page.dart';
-import 'package:apna_store/Screens/register_page.dart';
+import 'package:apna_store/Screens/authentication/login_page.dart';
+import 'package:apna_store/Screens/authentication/register_page.dart';
 import 'package:apna_store/img_file.dart';
 import 'package:flutter/material.dart';
 
@@ -45,9 +45,9 @@ class StarterPage extends StatelessWidget {
                               builder: (context) => LoginScreen()));
                         },
                         style: const ButtonStyle(
-                          elevation: MaterialStatePropertyAll(5),
+                          elevation: WidgetStatePropertyAll(5),
                           shadowColor:
-                              MaterialStatePropertyAll(Color(0xFF4F2D19)),
+                              WidgetStatePropertyAll(Color(0xFF4F2D19)),
                         ),
                         child: const Text("Login"),
                       ),
@@ -63,9 +63,9 @@ class StarterPage extends StatelessWidget {
                               builder: (context) => RegistrationScreen()));
                         },
                         style: const ButtonStyle(
-                          elevation: MaterialStatePropertyAll(5),
+                          elevation: WidgetStatePropertyAll(5),
                           shadowColor:
-                              MaterialStatePropertyAll(Color(0xFF4F2D19)),
+                              WidgetStatePropertyAll(Color(0xFF4F2D19)),
                         ),
                         child: const Text("Register"),
                       ),

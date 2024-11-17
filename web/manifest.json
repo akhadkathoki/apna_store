@@ -1,6 +1,6 @@
 {
-    "name": "apna_store",
-    "short_name": "apna_store",
+    "name": "apna_store_group_project",
+    "short_name": "apna_store_group_project",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -51,9 +51,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () {
               // Add logout functionality here
             },
-            icon: Row(
+            icon: const Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.logout,
                   color: Color.fromARGB(255, 253, 234, 211),
                 ),
@@ -188,7 +188,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     isEditingOtherDetails = false;
                   });
                 },
-                child: Text(
+                child: const Text(
                   'Save',
                   style: TextStyle(
                     fontSize: 18,
@@ -208,9 +208,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Center(
       child: Stack(
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             radius: 60,
-            backgroundColor: const Color.fromARGB(255, 155, 117, 70),
+            backgroundColor: Color.fromARGB(255, 155, 117, 70),
             child: CircleAvatar(
               radius: 55,
               backgroundImage: AssetImage(profile),
@@ -286,10 +286,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const SizedBox(height: 8),
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(40))),
             child: Material(
-              borderRadius: BorderRadius.all(Radius.circular(40)),
+              borderRadius: const BorderRadius.all(Radius.circular(40)),
               elevation: 9,
               shadowColor:
                   const Color.fromARGB(255, 180, 105, 62).withOpacity(0.15),

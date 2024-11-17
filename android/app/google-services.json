@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "286160692796",
+    "project_id": "apna-store-5",
+    "storage_bucket": "apna-store-5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286160692796:android:0641c22d4bb825f0d10539",
+        "android_client_info": {
+          "package_name": "com.example.apna_store_group_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCm4CzeZfl8_5lFnD0nQadHLFiCxSqygKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

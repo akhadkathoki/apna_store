@@ -1,9 +1,14 @@
-import 'package:apna_store/Screens/home_screen.dart';
-import 'package:apna_store/Screens/order_page.dart';
-import 'package:apna_store/Screens/starter_page.dart';
+import 'package:apna_store/Screens/authentication/register_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -12,7 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Apna Store',
       theme: ThemeData(
         primaryColor: const Color(0xFF4F2D19),
@@ -52,16 +57,16 @@ class MyApp extends StatelessWidget {
         ),
         outlinedButtonTheme: const OutlinedButtonThemeData(
           style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(Color(0xFFFAE3C6)),
-            foregroundColor: MaterialStatePropertyAll(Color(0xFF4F2D19)),
-            textStyle: MaterialStatePropertyAll(
+            backgroundColor: WidgetStatePropertyAll(Color(0xFFFAE3C6)),
+            foregroundColor: WidgetStatePropertyAll(Color(0xFF4F2D19)),
+            textStyle: WidgetStatePropertyAll(
               TextStyle(
                 fontSize: 20,
                 color: Color(0xFF4F2D19),
                 fontWeight: FontWeight.bold,
               ),
             ),
-            side: MaterialStatePropertyAll(
+            side: WidgetStatePropertyAll(
               BorderSide(
                 color: Color(0xFF4F2D19),
                 width: 2.0,
@@ -75,7 +80,12 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: FutureBuilder(
+        future: null,
+        builder: (context, dataSnapShot) {
+          return RegistrationScreen();
+        },
+      ),
     );
   }
 }

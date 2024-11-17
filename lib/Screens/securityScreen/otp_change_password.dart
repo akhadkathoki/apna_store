@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:apna_store/Screens/login_page.dart';
+import 'package:apna_store/Screens/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 
 class OTPChangePassword extends StatefulWidget {
@@ -87,7 +87,7 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // OTP title with bold style and large font
-                    Text(
+                    const Text(
                       "Enter OTP",
                       textAlign: TextAlign.left,
                       style:
@@ -112,7 +112,7 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
                           (index) {
                             return Expanded(
                               child: Container(
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
                                 ),
@@ -127,7 +127,7 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
                                     contentPadding:
                                         EdgeInsets.symmetric(vertical: 2),
                                   ),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 20,
                                   ),
                                   keyboardType: TextInputType.number,
@@ -201,10 +201,10 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
                                 return _enter_new_password();
                               });
                         },
-                        child: const Text('Verify OTP'),
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size.fromHeight(50),
                         ),
+                        child: const Text('Verify OTP'),
                       ),
                     ),
                   ],
@@ -234,7 +234,7 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Change Password",
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
@@ -264,7 +264,7 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Material(
@@ -305,10 +305,10 @@ class _OTPChangePasswordState extends State<OTPChangePassword> {
                     Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) => LoginScreen()));
                   },
-                  child: const Text('Verify OTP'),
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
                   ),
+                  child: const Text('Verify OTP'),
                 ),
               ),
             ],

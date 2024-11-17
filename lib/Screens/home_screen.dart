@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:apna_store/Screens/add_to_cartPage.dart';
-import 'package:apna_store/Screens/favoritePage.dart';
-import 'package:apna_store/Screens/homePage.dart';
+import 'package:apna_store/Screens/add_to_cart_page.dart';
+import 'package:apna_store/Screens/favorite_page.dart';
+import 'package:apna_store/Screens/home_page.dart';
 import 'package:apna_store/Screens/order_page.dart';
 
 class HomeScreen extends StatefulWidget {

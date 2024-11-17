@@ -1,4 +1,4 @@
-import 'package:apna_store/Screens/paymentSplashScreen.dart';
+import 'package:apna_store/Screens/payment_splash_screen.dart';
 import 'package:apna_store/img_file.dart';
 import 'package:flutter/material.dart';
 

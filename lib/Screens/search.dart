@@ -12,20 +12,20 @@ class _SearchHomeState extends State<SearchHome> {
   @override
   Widget build(BuildContext context) {
     return Dialog.fullscreen(
-      backgroundColor: Color.fromARGB(135, 124, 112, 97),
+      backgroundColor: const Color.fromARGB(135, 124, 112, 97),
       child: Container(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Color(0xFFFAE3C6),
+                color: const Color(0xFFFAE3C6),
                 borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
-                      color: const Color.fromARGB(158, 79, 45, 25),
+                      color: Color.fromARGB(158, 79, 45, 25),
                       spreadRadius: 1,
                       blurRadius: 6,
                       offset: Offset(0, 5))
@@ -52,7 +52,7 @@ class _SearchHomeState extends State<SearchHome> {
                               searchTxt.clear();
                             });
                           },
-                          icon: Icon(Icons.close),
+                          icon: const Icon(Icons.close),
                         ),
                       ),
                     ),
@@ -62,11 +62,11 @@ class _SearchHomeState extends State<SearchHome> {
                         // Close the popup
                         Navigator.of(context).pop();
                       },
-                      icon: Text(
+                      icon: const Text(
                         "Cancel",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(246, 79, 45, 25),
+                          color: Color.fromARGB(246, 79, 45, 25),
                         ),
                       )),
                 ],

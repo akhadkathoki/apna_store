@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:apna_store/Screens/item_widget.dart';
 import 'package:apna_store/Screens/product_details_page.dart';
@@ -35,9 +34,9 @@ class _MainHomeState extends State<MainHome>
   }
 
   loadData() async {
-    var dummyJson =
-        await rootBundle.loadString('assets/files/steelProduct.json');
-    var decodedJson = jsonDecode(dummyJson);
+    // var dummyJson =
+    //     await rootBundle.loadString('assets/files/steelProduct.json');
+    // var decodedJson = jsonDecode(dummyJson);
   }
 
   // @override
@@ -53,13 +52,13 @@ class _MainHomeState extends State<MainHome>
     final screenWidth = MediaQuery.of(context).size.width; // Screen width
     final screenHeight = MediaQuery.of(context).size.height; // Screen height
     return Scaffold(
-        backgroundColor: Color(0xFFFAE3C6),
+        backgroundColor: const Color(0xFFFAE3C6),
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 255, 214, 165),
           foregroundColor: theme.appBarTheme.backgroundColor,
           toolbarHeight: screenHeight * 0.1, // Dynamic height based on screen
           titleSpacing: 10,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(30),
               bottomRight: Radius.circular(30),
@@ -76,7 +75,7 @@ class _MainHomeState extends State<MainHome>
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProfileScreen(),
+                          builder: (context) => const ProfileScreen(),
                         ),
                       );
                     },
@@ -90,7 +89,7 @@ class _MainHomeState extends State<MainHome>
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Expanded(
@@ -102,14 +101,14 @@ class _MainHomeState extends State<MainHome>
                       style: TextStyle(
                         fontSize: screenWidth * 0.05, // Responsive font size
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF4F2D19),
+                        color: const Color(0xFF4F2D19),
                       ),
                     ),
                     Text(
                       'Plus Member',
                       style: TextStyle(
                         fontSize: screenWidth * 0.03, // Responsive font size
-                        color: Color.fromARGB(199, 79, 45, 25),
+                        color: const Color.fromARGB(199, 79, 45, 25),
                       ),
                     ),
                   ],
@@ -130,7 +129,7 @@ class _MainHomeState extends State<MainHome>
             IconButton(
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ProductDetails()),
+                  MaterialPageRoute(builder: (context) => const ProductDetails()),
                 );
               },
               icon: Icon(
@@ -146,11 +145,11 @@ class _MainHomeState extends State<MainHome>
               .productItrem.length, // Ensure the correct length is passed here
           itemBuilder: (context, index) {
             return AnimatedContainer(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
-              duration: Duration(milliseconds: 500),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(23, 255, 111, 0),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+              duration: const Duration(milliseconds: 500),
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(23, 255, 111, 0),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,12 +157,12 @@ class _MainHomeState extends State<MainHome>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("data"),
+                      const Text("data"),
                       IconButton(
                         onPressed: () {
                           setState(() {});
                         },
-                        icon: Row(
+                        icon: const Row(
                           children: [
                             Text("View More"),
                             Icon(Icons.arrow_forward_ios_rounded),
@@ -176,7 +175,7 @@ class _MainHomeState extends State<MainHome>
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (context) => ProductDetails()),
+                            builder: (context) => const ProductDetails()),
                       );
                     },
                     child: ItemWidget(
@@ -274,7 +273,7 @@ class _MainHomeState extends State<MainHome>
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return SearchHome();
+        return const SearchHome();
       },
     );
   }
