@@ -1,10 +1,14 @@
 import 'dart:developer';
 
-import 'package:apna_store/Screens/authentication/login_page.dart';
-import 'package:apna_store/Screens/authentication/register_page.dart';
+import 'package:apna_store/Screens/home_screen.dart';
 import 'package:apna_store/Screens/spalsh_screen.dart';
+import 'package:apna_store/Screens/starter_page.dart';
+import 'package:apna_store/Screens/welcome_user_splash_screen.dart';
+import 'package:apna_store/admin/add_product.dart';
 import 'package:apna_store/admin/admin_profile_screen.dart';
 import 'package:apna_store/admin/dashboard.dart';
+import 'package:apna_store/admin/product_list.dart';
+import 'package:apna_store/admin/total_sales.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -89,7 +93,7 @@ class MyApp extends StatelessWidget {
       home: FutureBuilder(
         future: null,
         builder: (context, dataSnapShot) {
-          return RegistrationScreen();
+          return AdminDashScreen();
         },
       ),
     );

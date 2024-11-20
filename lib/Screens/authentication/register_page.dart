@@ -244,12 +244,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             width: screenWidth * 0.5, // 50% of screen width
                             child: ElevatedButton(
                               onPressed: () {
-                                print(nameController.text.trim());
-                                print(phoneController.text.trim());
-                                print(emailController.text.trim());
-                                print(passwordController.text.trim());
-                                print(confirmPasswordController.text.trim());
-
                                 if (formKey.currentState!.validate()) {
                                   register();
                                 }

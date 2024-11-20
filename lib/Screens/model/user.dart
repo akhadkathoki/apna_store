@@ -1,20 +1,26 @@
-class User {
+class Users {
   int user_id;
   String user_name;
   String user_phone;
   String user_email;
   String user_password;
-  String user_conf_password;
 
-  User(this.user_id, this.user_name, this.user_phone, this.user_email,
-      this.user_password, this.user_conf_password);
+  Users({
+    required this.user_id,
+    required this.user_name,
+    required this.user_phone,
+    required this.user_email,
+    required this.user_password,
+  });
 
-  Map<String, dynamic> toJsom() => {
-        "user_id": user_id.toString(),
-        "user_name": user_name,
-        "user_phone": user_phone,
-        "user_email": user_email,
-        "user_password": user_password,
-        "user_conf_password": user_conf_password,
-      };
+  // Convert Firestore document to User object
+  factory Users.fromMap(Map<String, dynamic> data) {
+    return Users(
+      user_id: int.tryParse(data['user_id'] ?? '0') ?? 0,
+      user_name: data['user_name'] ?? '',
+      user_phone: data['user_phone'] ?? '',
+      user_email: data['user_email'] ?? '',
+      user_password: data['user_password'] ?? '',
+    );
+  }
 }

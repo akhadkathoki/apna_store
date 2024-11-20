@@ -1,9 +1,10 @@
 import 'package:apna_store/Screens/add_to_cart_page.dart';
+import 'package:apna_store/Screens/model/product.dart';
 import 'package:apna_store/img_file.dart'; // Assuming you have this for your image file
 import 'package:flutter/material.dart';
 
 class ProductDetails extends StatefulWidget {
-  const ProductDetails({super.key});
+  const ProductDetails({super.key, });
 
   @override
   _ProductDetailsState createState() => _ProductDetailsState();

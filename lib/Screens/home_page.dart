@@ -8,7 +8,8 @@ import 'package:apna_store/img_file.dart';
 import 'package:flutter/services.dart';
 
 class MainHome extends StatefulWidget {
-  const MainHome({Key? key}) : super(key: key);
+  final user_email;
+  const MainHome({Key? key, this.user_email}) : super(key: key);
 
   @override
   State<MainHome> createState() => _MainHomeState();
@@ -16,6 +17,9 @@ class MainHome extends StatefulWidget {
 
 class _MainHomeState extends State<MainHome>
     with SingleTickerProviderStateMixin {
+
+
+      
   // // List<String> items = categoryList; // List of categories
   // int current = 0;
   // late TabController
@@ -53,7 +57,6 @@ class _MainHomeState extends State<MainHome>
     return Scaffold(
         backgroundColor: const Color(0xFFFAE3C6),
         appBar: AppBar(
-          automaticallyImplyLeading: false, // Disables the back button
           backgroundColor: const Color.fromARGB(255, 255, 214, 165),
           foregroundColor: theme.appBarTheme.backgroundColor,
           toolbarHeight: screenHeight * 0.1, // Dynamic height based on screen

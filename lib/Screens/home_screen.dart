@@ -1,3 +1,5 @@
+import 'package:apna_store/Screens/model/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:apna_store/Screens/add_to_cart_page.dart';
@@ -6,7 +8,9 @@ import 'package:apna_store/Screens/home_page.dart';
 import 'package:apna_store/Screens/order_page.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -14,7 +18,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-
+  @override
+  @override
   final List<Widget> _pages = [
     MainHome(), // Home Page
     OrderPage(), // Order Page
@@ -30,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: const Color(0xFFFAE3C6),
       bottomNavigationBar: bottomNavigationBar(context),
@@ -100,6 +104,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
- 
 }
