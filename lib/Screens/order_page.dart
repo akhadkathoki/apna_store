@@ -1,7 +1,6 @@
 import 'package:apna_store/Screens/home_screen.dart';
 import 'package:apna_store/controller/orderController.dart';
 import 'package:apna_store/img_file.dart';
-import 'package:apna_store/models/categories.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,9 +11,13 @@ class OrderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
 
-    // Instantiate the controller and fetch orders
+    // Instantiate the controller
     final OrderController orderController = Get.put(OrderController());
-    orderController.fetchOrders(); // Fetch orders on page load
+
+    // Fetch orders on page load
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      orderController.fetchOrders();
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -32,10 +35,28 @@ class OrderPage extends StatelessWidget {
       ),
       body: Obx(
         () {
-          if (orderController.orders.isEmpty) {
+          if (orderController.isLoading.value) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (orderController.errorMessage.isNotEmpty) {
             return Center(
-                child:
-                    CircularProgressIndicator()); // Show loading while fetching data
+              child: Text(
+                orderController.errorMessage.value,
+                style: const TextStyle(color: Colors.red, fontSize: 16),
+              ),
+            );
+          }
+
+          if (orderController.orders.isEmpty) {
+            return const Center(
+              child: Text(
+                'No orders available.',
+                style: TextStyle(fontSize: 18),
+              ),
+            );
           }
 
           return ListView.builder(
@@ -55,11 +76,14 @@ class OrderPage extends StatelessWidget {
                   children: [
                     SizedBox(
                       height: 170,
-                      width: screenWidth *
-                          0.35, // Image size adapts to screen width
-                      child: Image.asset (
-                        productImg, // Use the actual image URL from Firebase
+                      width: screenWidth * 0.35,
+                      child: Image.asset(
+                        orderController.orders[index]["image_url"] ??
+                            productImg, // Use image URL from Firebase or fallback
                         fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Icon(Icons.broken_image, size: 50);
+                        },
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -69,14 +93,14 @@ class OrderPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            order['name'],
+                            order['name'] ?? 'Unnamed Product',
                             style: TextStyle(
-                              fontSize: screenWidth * 0.05, // Adapt font size
+                              fontSize: screenWidth * 0.05,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            order['description'],
+                            order['description'] ?? 'No description available',
                             style: TextStyle(
                               fontSize: screenWidth * 0.035,
                               color: const Color.fromARGB(212, 104, 104, 104),
@@ -85,19 +109,19 @@ class OrderPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            'Seller: ${order['shop_owner']}',
+                            'Seller: ${order['shop_owner'] ?? 'Unknown Seller'}',
                             textAlign: TextAlign.right,
                             maxLines: 1,
                             style: TextStyle(
-                                fontSize: screenWidth * 0.04,
-                                fontWeight: FontWeight.bold),
+                              fontSize: screenWidth * 0.04,
+                              fontWeight: FontWeight.bold,
+                            ),
                             softWrap: true,
                           ),
                           const SizedBox(height: 5),
                           Expanded(
                             child: Text(
-                              "${order['name']}  is arriving on 16th Dec, 2024" ??
-                                  'N/A',
+                              "${order['name']} is arriving on 16th Dec, 2024",
                               style: TextStyle(fontSize: screenWidth * 0.037),
                               softWrap: true,
                               textAlign: TextAlign.left,
@@ -117,6 +141,4 @@ class OrderPage extends StatelessWidget {
       ),
     );
   }
-
-  // Modify this method to receive the product data from Firebase
 }

@@ -101,7 +101,7 @@ class AdminDashScreen extends StatelessWidget {
             context,
             "Manage Orders",
             Icons.shopping_basket,
-            const OrdersManagementScreen(),
+            const OrdersManagement(),
           ),
           _buildMenuCard(
             context,
