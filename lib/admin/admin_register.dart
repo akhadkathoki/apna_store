@@ -15,12 +15,13 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:random_string/random_string.dart';
 
-class RegistrationScreen extends StatefulWidget {
+class AdminRegistrationScreen extends StatefulWidget {
   @override
-  _RegistrationScreenState createState() => _RegistrationScreenState();
+  _AdminRegistrationScreenState createState() =>
+      _AdminRegistrationScreenState();
 }
 
-class _RegistrationScreenState extends State<RegistrationScreen> {
+class _AdminRegistrationScreenState extends State<AdminRegistrationScreen> {
   final _obscurePassword = true.obs;
   final _obscureConfirmPassword = true.obs;
   var formKey = GlobalKey<FormState>();
@@ -30,8 +31,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   // form fields
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController adminEmailController = TextEditingController();
+  final TextEditingController adminPasswordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
@@ -43,8 +44,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     auth
         .createUserWithEmailAndPassword(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
+      email: adminEmailController.text.trim(),
+      password: adminPasswordController.text.trim(),
     )
         .then((value) {
       setState(() {
@@ -54,8 +55,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           'user_id': user_id,
           'user_name': nameController.text.trim(),
           'user_phone': phoneController.text.trim(),
-          'user_email': emailController.text.trim(),
-          'user_password': passwordController.text.trim(),
+          'user_email': adminEmailController.text.trim(),
+          'user_password': adminPasswordController.text.trim(),
         };
         DatabaseMethods().addUserDetails(userData, user_id);
         Utils().toasMessage("Registered Successfully");
@@ -163,7 +164,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 .withOpacity(0.15),
                             borderRadius: BorderRadius.circular(40),
                             child: TextFormField(
-                              controller: emailController,
+                              controller: adminEmailController,
                               keyboardType: TextInputType.visiblePassword,
                               decoration: const InputDecoration(
                                 hintText: 'Email',
@@ -180,7 +181,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             borderRadius: BorderRadius.circular(40),
                             child: Obx(
                               () => TextFormField(
-                                controller: passwordController,
+                                controller: adminPasswordController,
                                 obscureText: _obscurePassword.value,
                                 keyboardType: TextInputType.visiblePassword,
                                 decoration: InputDecoration(

@@ -5,12 +5,9 @@ class DatabaseMethods {
     FirebaseFirestore.instance.collection('users').doc(user_id).set(userData);
   }
 
-  Future addProductDetails(
-      Map<String, dynamic> productData, String product_id) async {
-    FirebaseFirestore.instance
-        .collection('product')
-        .doc(product_id)
-        .set(productData);
+  Future addOrderDetails(
+      Map<String, dynamic> orderData, String order_id) async {
+    FirebaseFirestore.instance.collection('orders').add(orderData);
   }
 
   Future<Map<String, dynamic>?> getUserById(String user_Id) async {
@@ -28,6 +25,6 @@ class DatabaseMethods {
 
   // fetch product details on the admin side
   Stream<QuerySnapshot> getProductData() {
-  return FirebaseFirestore.instance.collection('product').snapshots();
-}
+    return FirebaseFirestore.instance.collection('products').snapshots();
+  }
 }

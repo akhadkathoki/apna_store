@@ -1,24 +1,26 @@
+import 'package:apna_store/Screens/authentication/login_page.dart';
 import 'package:apna_store/Screens/securityScreen/otp_change_password.dart';
 import 'package:apna_store/Screens/welcome_user_splash_screen.dart';
 import 'package:apna_store/Utils/utils.dart';
-import 'package:apna_store/admin/adminLogin.dart';
+import 'package:apna_store/admin/admin_register.dart';
+import 'package:apna_store/admin/dashboard.dart';
 import 'package:apna_store/img_file.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-class LoginScreen extends StatefulWidget {
+class AdminLoginScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _AdminLoginScreenState createState() => _AdminLoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _AdminLoginScreenState extends State<AdminLoginScreen> {
   final formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final adminEmailController = TextEditingController();
+  final adminPasswordController = TextEditingController();
   final _obscurePassword = true.obs; // Observable for password visibility
 
   final auth = FirebaseAuth.instance;
@@ -26,8 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void login() {
     auth
         .signInWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passwordController.text.toString())
+            email: adminEmailController.text.trim(),
+            password: adminPasswordController.text.toString())
         .then((value) {
       Utils().toasMessage("Login Succesfully");
       Navigator.of(context).pushReplacement(
@@ -70,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Divider(thickness: 0.5, color: Color(0xFF4F2D19)),
 
                       Text(
-                        "Login",
+                        "Admin Login",
                         style: TextStyle(
                           fontSize: screenWidth * 0.07,
                           fontWeight: FontWeight.w900,
@@ -93,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       .withOpacity(0.15),
                               borderRadius: BorderRadius.circular(40),
                               child: TextFormField(
-                                controller: emailController,
+                                controller: adminEmailController,
                                 keyboardType: TextInputType.visiblePassword,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -117,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       .withOpacity(0.5),
                               borderRadius: BorderRadius.circular(40),
                               child: TextFormField(
-                                controller: passwordController,
+                                controller: adminPasswordController,
                                 keyboardType: TextInputType.visiblePassword,
                                 validator: (value) => value == ""
                                     ? "Please enter your password"
@@ -177,9 +179,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               width: screenWidth * 0.5,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  if (formKey.currentState!.validate()) {
-                                    login();
-                                  }
+                                  Get.to(() => AdminDashScreen());
+                                  // if (formKey.currentState!.validate()) {
+                                  //   login();
+                                  // }
                                 },
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: const Size.fromHeight(50),
@@ -203,10 +206,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       // Admin login line
                       TextButton(
                         onPressed: () {
-                          Get.to(() => AdminLoginScreen());
+                          Get.to(() => LoginScreen());
                         },
                         child: Text(
-                          "Admin Login",
+                          "User Login",
+                          style: TextStyle(
+                            color: Colors.brown[600],
+                            decoration: TextDecoration.underline,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      // Admin login line
+                      TextButton(
+                        onPressed: () {
+                          Get.to(() => AdminRegistrationScreen());
+                        },
+                        child: Text(
+                          "Admin Register",
                           style: TextStyle(
                             color: Colors.brown[600],
                             decoration: TextDecoration.underline,

@@ -1,7 +1,7 @@
-import 'package:apna_store/Screens/model/product.dart';
+import 'package:apna_store/models/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:apna_store/Screens/model/user.dart';
+import 'package:apna_store/models/user.dart';
 
 Future<Users?> fetchCurrentUser() async {
   final FirebaseAuth auth = FirebaseAuth.instance;

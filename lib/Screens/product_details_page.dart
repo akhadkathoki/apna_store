@@ -1,10 +1,18 @@
 import 'package:apna_store/Screens/add_to_cart_page.dart';
-import 'package:apna_store/Screens/model/product.dart';
+import 'package:apna_store/Screens/billing_page.dart';
+import 'package:apna_store/admin/product_list.dart';
+import 'package:apna_store/controller/product_controller.dart';
+import 'package:apna_store/models/product.dart';
 import 'package:apna_store/img_file.dart'; // Assuming you have this for your image file
+import 'package:apna_store/models/product_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/instance_manager.dart';
+import 'package:random_string/random_string.dart';
 
 class ProductDetails extends StatefulWidget {
-  const ProductDetails({super.key, });
+  const ProductDetails({Key? key}) : super(key: key);
 
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
@@ -12,40 +20,88 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   int quantity = 1;
+  final int index = Get.arguments; // Get the index passed
+  final ProductController productController = Get.find<ProductController>();
+  bool isFavorite = false; // To track if the product is marked as favorite
 
-  // Sample product data
-  final Map<String, dynamic> product = {
-    "name": "Bamboo Shoe Rack",
-    "subtitle": "Eco-friendly shoe rack",
-    "description": "A sustainable and stylish shoe rack made from bamboo.",
-    "rating": 4.3,
-    "actualPrice": 100.0,
-    "discountPrice": 90.0,
-    "discountPercentage": 10,
-    "paymentOptions": ["Credit Card", "PayPal", "Wallet"],
-    "shopOwner": "EcoHome",
-    "location": "Portland, USA",
-    "highlights": [
-      "Eco-friendly bamboo",
-      "Eco-friendly bamboo",
-      "Eco-friendly bamboo",
-      "Eco-friendly bamboo",
-      "Eco-friendly bamboo",
-      "Compact design",
-      "Easy to assemble"
-    ],
-    "image": "https://example.com/images/bamboo_shoe_rack.jpg"
-  };
+  @override
+  void initState() {
+    super.initState();
+    checkIfFavorite(); // Check if the product is already in the favorites
+  }
+
+  // Function to check if the product is already in favorites
+  Future<void> checkIfFavorite() async {
+    var items = productController.productApi[index];
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('favorites')
+          .where('product_id', isEqualTo: items.productId)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        setState(() {
+          isFavorite = true;
+        });
+      }
+    } catch (e) {
+      print('Error checking if favorite: $e');
+    }
+  }
+
+  // Function to toggle favorite status
+  Future<void> toggleFavorite() async {
+    var items = productController.productApi[index];
+    try {
+      if (isFavorite) {
+        // Remove from favorites
+        await FirebaseFirestore.instance
+            .collection('favorites')
+            .where('product_id', isEqualTo: items.productId)
+            .get()
+            .then((snapshot) {
+          for (var doc in snapshot.docs) {
+            doc.reference.delete();
+          }
+        });
+      } else {
+        // Add to favorites
+        var favourate_id = randomNumeric(5);
+        var favoriteData = {
+          "favourate_id": favourate_id,
+          "name": items.name,
+          "category": items.category,
+          "quantity": quantity,
+          "actual_price": items.actualPrice,
+          "discount_price": items.discountPrice,
+          "discount_percentage": items.discountPercentage,
+          "shop_owner": items.shopOwner,
+          "location": items.location,
+          "image_url": productImg,
+        };
+        await FirebaseFirestore.instance
+            .collection('favorites')
+            .add(favoriteData);
+      }
+
+      setState(() {
+        isFavorite = !isFavorite;
+      });
+    } catch (e) {
+      print('Error toggling favorite: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    var items = productController.productApi[index];
     return Scaffold(
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
         children: [
           // Product image
-          Image.network(
-            productImg,
+          Image.asset(
+            items.imageUrl,
             height: 350,
             fit: BoxFit.cover,
           ),
@@ -69,7 +125,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            product['name'],
+                            items.name,
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -77,12 +133,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                             ),
                           ),
                           const SizedBox(height: 4.0),
-                          Text(
-                            product['subtitle'],
-                            style: const TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 104, 104, 104)),
-                          ),
                         ],
                       ),
                       const Spacer(),
@@ -90,14 +140,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                       const Spacer(),
                       Expanded(
                         child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.favorite_outline,
+                          onPressed: toggleFavorite,
+                          icon: Icon(
+                            isFavorite
+                                ? Icons.favorite
+                                : Icons.favorite_outline,
                             size: 30,
                             color: Color(0xFF4F2D19),
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        width: 15,
+                      )
                     ],
                   ),
                 ),
@@ -107,7 +162,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 Row(
                   children: [
                     Text(
-                      '\$${product['actualPrice']}',
+                      '\$${items.actualPrice}',
                       style: const TextStyle(
                           fontSize: 18,
                           color: Color.fromARGB(255, 95, 94, 94),
@@ -115,7 +170,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                     const SizedBox(width: 8.0),
                     Text(
-                      '-${product['discountPercentage']}% Off',
+                      '-${items.discountPercentage}% Off',
                       style: const TextStyle(
                           fontSize: 18,
                           color: Colors.green,
@@ -123,9 +178,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                     const Spacer(),
                     Text(
-                      '\$${product['discountPrice']}',
+                      '\$${items.discountPrice}',
                       style: const TextStyle(
-                        fontSize: 40,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF4F2D19), // Custom theme color
                       ),
@@ -156,14 +211,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                         const Icon(Icons.star, color: Colors.amber),
                         const SizedBox(width: 4.0),
                         Text(
-                          '${product['rating']}  Rating',
+                          '${items.rating}  Rating',
                           style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                     Text(
-                      'Seller: ${product['shopOwner']}',
+                      'Seller: ${items.shopOwner}',
                       style: const TextStyle(fontSize: 16),
                     ),
                   ],
@@ -172,7 +227,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
                 // Description
                 Text(
-                  product['description'],
+                  items.description,
                   style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 16.0),
@@ -240,7 +295,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: product['highlights']
+                  children: items.highlights
                       .map<Widget>((highlight) => Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Row(
@@ -268,46 +323,33 @@ class _ProductDetailsState extends State<ProductDetails> {
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 255, 221, 181),
-              borderRadius: BorderRadius.circular(20.0),
+              borderRadius: BorderRadius.circular(10.0),
             ),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: SizedBox(
-                    height: 50.0,
-                    child: OutlinedButton(
-                      onPressed: () {
-                        // Action for Add to Cart
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const AddToCartPage()));
-                      },
-                      child: const Text(
-                        'Add to Cart',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                OutlinedButton(
+                  onPressed: () {
+                    // Add to cart functionality
+                    Get.to(() => const AddToCartPage());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 30),
                   ),
+                  child: const Text('Add to Cart'),
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Action for Buy Now
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF4F2D19),
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                      ),
-                      child: const Text(
-                        'Buy Now',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                const SizedBox(height: 10.0),
+                ElevatedButton(
+                  onPressed: () {
+                    Get.to(() => BillingPage(),
+                        arguments: {'index': index, 'quantity': quantity});
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 18, horizontal: 40),
                   ),
+                  child: const Text('Buy Now'),
                 ),
               ],
             ),

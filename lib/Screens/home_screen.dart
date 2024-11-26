@@ -1,4 +1,5 @@
-import 'package:apna_store/Screens/model/user.dart';
+import 'package:apna_store/controller/product_controller.dart';
+import 'package:apna_store/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,7 @@ import 'package:apna_store/Screens/add_to_cart_page.dart';
 import 'package:apna_store/Screens/favorite_page.dart';
 import 'package:apna_store/Screens/home_page.dart';
 import 'package:apna_store/Screens/order_page.dart';
+import 'package:get/instance_manager.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -17,6 +19,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ProductController productController = Get.put(ProductController());
+
   int _selectedIndex = 0;
   @override
   @override
